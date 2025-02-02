@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 
+console.log('\x1b[2J');
+
 const contains = {
   dirtyDiaper: 0,
   treasure: 1,
 };
 
 // The number of experiments to run
-const numberOfExperiments = 10000;
+const numberOfExperiments = 10;
 
 // Are we goin g ot switch doors?
 const switchDoors = false;
@@ -21,12 +23,14 @@ let failureCount = 0;
 for (let i = 0; i < numberOfExperiments; i++) {
   let guess = doors[Math.floor(Math.random() * 3)];
 
-  // Remove a diaper from one of the other two doors
+  // Remove a diaper from one of the other two doors, if we are running
+  // experiments where we're switching doors
   const newDoors = [contains.dirtyDiaper, contains.treasure];
   if (switchDoors) {
     guess = newDoors[Math.floor(Math.random() * 2)];
   }
 
+  // Update the number of guesses that are correct and incorrect
   if (guess === contains.treasure) {
     successCount++;
     console.log('\x1b[42m%s\x1b[0m', 'Found treasure!');
@@ -39,5 +43,8 @@ for (let i = 0; i < numberOfExperiments; i++) {
 // Summarize results
 const chanceOfWinning =
   Math.round((successCount / numberOfExperiments) * 100) / 100;
-console.log(`Successes: ${successCount} : Failures: ${failureCount}`);
-console.log(`Chance of treasure: ${chanceOfWinning}`);
+console.log(
+  '\x1b[43m%s\x1b[0m',
+  `Successes: ${successCount} : Failures: ${failureCount}`
+);
+console.log('\x1b[43m%s\x1b[0m', `Chance of treasure: ${chanceOfWinning}`);
