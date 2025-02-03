@@ -1,11 +1,10 @@
 const SPEED = 10;
-const GRAVITY = 0.9;
 
 function calculateXasFunctionOfY(y) {
   // Function to calculate x as a function of y
   const x = y ** 0;
 
-  // Return x value
+  // Return value of x
   return x;
 }
 
@@ -34,12 +33,12 @@ function rise() {
   // Calculate the maximum height for the ball to travel upwards
   const maxHeight =
     document.getElementsByClassName('container')[0].offsetHeight -
-    ball.offsetHeight;
+    ball.offsetHeight * 2;
 
   // Move the ball
   ball.style.transform = `translate(${xPos}px, -${yPos}px)`;
 
-  // Make sure that the ball does not fly into the sun
+  // Make sure that the ball drops again after rising to its apex
   if (yPos >= maxHeight) {
     requestAnimationFrame(fall);
   } else {

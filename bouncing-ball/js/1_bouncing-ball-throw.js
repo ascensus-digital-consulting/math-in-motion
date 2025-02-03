@@ -1,7 +1,7 @@
 const SPEED = 5;
 
 function calculateXasFunctionOfY(y) {
-  // Calculate x as a function of y
+  // Function to calculate x as a function of y
   const x = y ** 0;
 
   // Return value of x
@@ -33,8 +33,9 @@ function rise() {
   // Calculate the maximum height for the ball to travel upwards
   const maxHeight =
     document.getElementsByClassName('container')[0].offsetHeight -
-    ball.offsetHeight;
+    ball.offsetHeight * 2;
 
+  // Move the ball
   ball.style.transform = `translate(${xPos}px, -${yPos}px)`;
 
   // Make sure that the ball does not fly into the sun

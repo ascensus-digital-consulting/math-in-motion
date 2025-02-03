@@ -1,16 +1,18 @@
 #!/usr/bin/env node
 
+// Clear terminal
 console.log('\x1b[2J');
 
+// What can the rooms behind the doors contain?
 const contains = {
   dirtyDiaper: 0,
   treasure: 1,
 };
 
 // The number of experiments to run
-const numberOfExperiments = 10;
+const numberOfExperiments = 5;
 
-// Are we goin g ot switch doors?
+// Are we going to switch doors?
 const switchDoors = false;
 
 // Put the diapers and treasure behind each of three doors
@@ -25,18 +27,18 @@ for (let i = 0; i < numberOfExperiments; i++) {
 
   // Remove a diaper from one of the other two doors, if we are running
   // experiments where we're switching doors
-  const newDoors = [contains.dirtyDiaper, contains.treasure];
   if (switchDoors) {
+    const newDoors = [contains.dirtyDiaper, contains.treasure];
     guess = newDoors[Math.floor(Math.random() * 2)];
   }
 
   // Update the number of guesses that are correct and incorrect
   if (guess === contains.treasure) {
     successCount++;
-    console.log('\x1b[42m%s\x1b[0m', 'Found treasure!');
+    console.log('\x1b[42m%s\x1b[0m', 'Found treasure :-)');
   } else {
     failureCount++;
-    console.log('\x1b[41m%s\x1b[0m', 'Found dirty diaper!');
+    console.log('\x1b[41m%s\x1b[0m', 'Found dirty diaper :-(');
   }
 }
 
