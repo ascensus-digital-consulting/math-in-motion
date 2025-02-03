@@ -28,8 +28,8 @@ for (let i = 0; i < numberOfExperiments; i++) {
   // Remove a diaper from one of the other two doors, if we are running
   // experiments where we're switching doors
   if (switchDoors) {
-    const newDoors = [contains.dirtyDiaper, contains.treasure];
-    guess = newDoors[Math.floor(Math.random() * 2)];
+    guess =
+      guess === contains.dirtyDiaper ? contains.treasure : contains.dirtyDiaper;
   }
 
   // Update the number of guesses that are correct and incorrect
