@@ -1,8 +1,18 @@
+import { Ball } from './Ball.js';
+import { Thrower } from './Thrower.js';
+
 class Environment {
-  #ball = document.getElementById('ball');
-  #height = document.getElementsByClassName('container')[0].offsetHeight;
-  #width = document.getElementsByClassName('container')[0].offsetWidth;
-  #speed = 5;
+  constructor() {
+    this.#ball = new Ball();
+    this.#thrower = new Thrower(this);
+    this.#height = document.getElementsByClassName('container')[0].offsetHeight;
+    this.#width = document.getElementsByClassName('container')[0].offsetWidth;
+  }
+
+  #ball;
+  #thrower;
+  #height;
+  #width;
 
   get ball() {
     return this.#ball;
@@ -16,8 +26,8 @@ class Environment {
     return this.#width;
   }
 
-  get speed() {
-    return this.#speed;
+  get thrower() {
+    return this.#thrower;
   }
 }
 

@@ -1,20 +1,22 @@
 class Ball {
-  constructor(ball, speed) {
-    this.#ball = ball;
-    this.#speed = speed;
+  constructor() {
+    this.#element = document.getElementById('ball');
+    this.#diameter = this.#element.offsetWidth;
   }
 
-  #ball;
-  #speed;
-  #moveX = 0;
-  #moveY = 0;
+  #element;
+  #diameter;
 
-  moveX(distance) {
-    this.#moveX += distance;
+  get diameter() {
+    return this.#diameter;
   }
 
-  moveY(distance) {
-    this.#moveY += distance;
+  init(fn) {
+    this.#element.addEventListener('click', fn);
+  }
+
+  position(x, y) {
+    this.#element.style.transform = `translate(${x}px, ${y}px)`;
   }
 }
 
