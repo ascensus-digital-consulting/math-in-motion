@@ -10,7 +10,7 @@ const contains = {
 };
 
 // The number of experiments to run
-const numberOfExperiments = 5;
+const numberOfExperiments = 50000;
 
 // Are we going to switch doors?
 const switchDoors = false;
@@ -20,6 +20,8 @@ const doors = [contains.dirtyDiaper, contains.dirtyDiaper, contains.treasure];
 
 let successCount = 0;
 let failureCount = 0;
+const successColor = '\x1b[42m%s\x1b[0m';
+const failureColor = '\x1b[41m%s\x1b[0m';
 
 // Run experiments
 for (let i = 0; i < numberOfExperiments; i++) {
@@ -35,10 +37,10 @@ for (let i = 0; i < numberOfExperiments; i++) {
   // Update the number of guesses that are correct and incorrect
   if (guess === contains.treasure) {
     successCount++;
-    console.log('\x1b[42m%s\x1b[0m', 'Found treasure :-)');
+    console.log(successColor, 'Found treasure :-)');
   } else {
     failureCount++;
-    console.log('\x1b[41m%s\x1b[0m', 'Found dirty diaper :-(');
+    console.log(failureColor, 'Found dirty diaper :-(');
   }
 }
 
@@ -49,4 +51,6 @@ console.log(
   '\x1b[43m%s\x1b[0m',
   `Successes: ${successCount} : Failures: ${failureCount}`
 );
-console.log('\x1b[43m%s\x1b[0m', `Chance of treasure: ${chanceOfWinning}`);
+console.log();
+const consoleColor = chanceOfWinning > 0.5 ? successColor : failureColor;
+console.log(consoleColor, `Chance of treasure: ${chanceOfWinning}`);
