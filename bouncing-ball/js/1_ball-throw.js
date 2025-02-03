@@ -1,4 +1,4 @@
-const SPEED = 10;
+const SPEED = 5;
 
 function calculateXasFunctionOfY(y) {
   // Function to calculate x as a function of y
@@ -19,11 +19,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Throw the ball when we click it
 function throwBall() {
-  rise();
+  move();
 }
 
 // Perform the animation when we throw the ball
-function rise() {
+function move() {
   // Move the ball
   yPos = yPos + SPEED;
   xPos = calculateXasFunctionOfY(yPos);
@@ -38,27 +38,8 @@ function rise() {
   // Move the ball
   ball.style.transform = `translate(${xPos}px, -${yPos}px)`;
 
-  // Make sure that the ball drops again after rising to its apex
-  if (yPos >= maxHeight) {
-    requestAnimationFrame(fall);
-  } else {
-    requestAnimationFrame(rise);
-  }
-}
-
-// Perform the animation when we throw the ball
-function fall() {
-  // Move the ball
-  yPos = yPos - SPEED;
-  xPos = calculateXasFunctionOfY(yPos);
-
-  const ball = document.getElementById('ball');
-  ball.style.transform = `translate(${xPos}px, -${yPos}px)`;
-
   // Make sure that the ball does not fly into the sun
-  if (yPos <= 0) {
-    requestAnimationFrame(rise);
-  } else {
-    requestAnimationFrame(fall);
+  if (yPos <= maxHeight) {
+    requestAnimationFrame(move);
   }
 }
