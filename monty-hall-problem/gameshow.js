@@ -10,7 +10,7 @@ const contains = {
 };
 
 // The number of experiments to run
-const numberOfExperiments = 50000;
+const numberOfExperiments = 5;
 
 // Are we going to switch doors?
 const switchDoors = false;

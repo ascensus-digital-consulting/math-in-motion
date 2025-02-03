@@ -2,10 +2,10 @@ import { Environment } from './lib/Environment.js';
 
 // Add the click event handler to the ball
 document.addEventListener('DOMContentLoaded', () => {
-  const SPEED = 0.5;
+  const SPEED = 10;
 
   function direction(y) {
-    const x = 0.5 * y;
+    const x = y ** 0;
     return x;
   }
 
