@@ -1,3 +1,5 @@
+import { calculateY } from './lib/calculateY.js';
+
 document.addEventListener('DOMContentLoaded', () => {
   // Environmental constants
   const GRAVITY = 9.8;
@@ -15,15 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   // Variables
-  const SPEED = 1500;
-  const COEFFICIENT_OF_RESTITUTION = 0.8;
+  const SPEED = 1000;
+  const COEFFICIENT_OF_RESTITUTION = 1;
   const DELAY = 1;
   const HORIZONTAL_VELOCITY = 0;
-
-  // const SPEED = 150000;
-  // const COEFFICIENT_OF_RESTITUTION = 0.8;
-  // const DELAY = 30;
-  // const HORIZONTAL_VELOCITY = 0.25;
 
   let counter = 0;
 
@@ -46,12 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Calcutate the vertical velocity of the ball
-  function calculateVerticalVelocity(time, coefficientOfRestitution = 1) {
-    const velocity = 0.5 * coefficientOfRestitution * GRAVITY * time ** 2;
-    return velocity;
-  }
-
   // Simplified drop function
   function drop(ballPosition, elapsedTime) {
     updateBallPosition(ballPosition, elapsedTime, DIRECTION.down);
@@ -64,48 +55,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Common function to update ball position and animate
   function updateBallPosition(ballPosition, elapsedTime, direction, timestamp) {
+    // If the ball is outside the beach, stop the animation
     if (ballPosition.x >= BEACH_BOUNDARY_X) {
       return;
     }
 
+    // If the ball is falling, set COR to 1
     const cor = direction === DIRECTION.down ? 1 : COEFFICIENT_OF_RESTITUTION;
+
+    // Rewind time if the ball is bouncing
     const timeValue =
-      direction === DIRECTION.down ? elapsedTime++ : elapsedTime--;
-    const velocity = calculateVerticalVelocity(timeValue, cor);
+      direction === DIRECTION.down ? elapsedTime++ : --elapsedTime;
+
+    // Calculate the position of the ball on the y axis
+    const y = calculateY(timeValue, GRAVITY, cor);
+    const velocity = y;
 
     // Special cases for dropping
     if (direction === DIRECTION.down) {
+      // Stop the ball if the bounce is low enough
       if (ballPosition.y <= 2 && elapsedTime < 2) {
         positionBall(ballPosition.x, 0);
         return;
       }
 
+      // Bounce the ball when it lands on the beach
       if (ballPosition.y <= 0) {
         positionBall(ballPosition.x, ballPosition.y);
         bounce(ballPosition, --elapsedTime);
         return;
       }
-    } else if (velocity <= 0) {
-      // Special case for bouncing
+    }
+
+    // Drop the ball when it reaches the apex
+    else if (velocity <= 0) {
       ballPosition.y = INITIAL_BALL_POSITION.y;
       positionBall(ballPosition.x, ballPosition.y);
       drop(ballPosition, elapsedTime);
       return;
     }
 
-    // Common position updates
+    // Calculate the new position of the ball
     ballPosition.x = ballPosition.x + HORIZONTAL_VELOCITY;
     ballPosition.y =
-      ballPosition.y + (direction ? -velocity : velocity) / SPEED;
+      ballPosition.y + (direction === DIRECTION.down ? -y : y) / SPEED;
 
+    // Log the position of the ball
     if (++counter % DELAY === 0) {
       console.log(
         `x:${Math.round(ballPosition.x)}, y:${Math.round(ballPosition.y)}`
       );
     }
 
+    // Move the ball to the correct position
     positionBall(ballPosition.x, -ballPosition.y);
 
+    // Animate the ball
     requestAnimationFrame(() => {
       direction === DIRECTION.down
         ? drop(ballPosition, elapsedTime)
